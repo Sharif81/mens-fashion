@@ -5,6 +5,7 @@ import Col from 'react-bootstrap/Col';
 import Order from '../Order/Order';
 import './Orders.css'
 import OrderSummary from '../OrderSummary/OrderSummary';
+import { addToDb, getStoredCart } from '../../utilities/fakedb';
 
 
 const Orders = () => {
@@ -16,10 +17,36 @@ const Orders = () => {
             .then(data => setProducts(data))
     }, []);
 
-    const handleAddToCart = (product) => {
-        console.log(product);
-        const newCart = [...cart, product];
+    useEffect( () => {
+        const storeCart = getStoredCart();
+        const saveCart = [];
+        for (const id in storeCart){
+            const addedProduct = products.find(product=> product.id === id);
+            if(addedProduct){
+                const quantity = storeCart[id];
+                addedProduct.quantity = quantity;
+                saveCart.push(addedProduct);
+            }           
+        }
+        setCart(saveCart);
+    }, [products]);
+
+    const handleAddToCart = (selectedProduct) => {
+        // console.log(product);
+        let newCart = [];
+        const exits = cart.find(product => product.id === selectedProduct.id)
+        if(!exits){
+            selectedProduct.quantity = 1;
+            newCart = [...cart, selectedProduct];
+        }
+        else {
+            const rest = cart.filter(product => product.id !== selectedProduct.id)
+            exits.quantity = exits.quantity + 1;
+            newCart = [...rest, exits];
+        }
+        
         setCart(newCart);
+        addToDb(selectedProduct.id);
     }
     return (
         <Container>

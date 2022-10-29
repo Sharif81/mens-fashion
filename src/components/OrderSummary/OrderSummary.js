@@ -14,9 +14,11 @@ const OrderSummary = (props) => {
 
     let total = 0;
     let shipping = 0;
+    let quantity = 0;
     
     for(const product of cart){
-        total = total + product.price;
+        quantity = quantity + product.quantity;
+        total = total + product.price * product.quantity;
         shipping = shipping + product.shipping;
     }
     const tax = parseInt((total * 0.1).toFixed(2));
@@ -29,7 +31,7 @@ const OrderSummary = (props) => {
                         <Card bg='warning'>
                             <h4 className='summary-title'>Product Summary</h4>
                             <Card.Body className='body-text mt-4'>
-                                <Card.Text>Selected Items: {cart.length} </Card.Text>
+                                <Card.Text>Selected Items: {quantity} </Card.Text>
                                 <Card.Text>Total Price: $ {total} </Card.Text>
                                 <Card.Text>Total Shipping Charge: $ {shipping} </Card.Text>
                                 <Card.Text>Tax: $ {tax}</Card.Text>

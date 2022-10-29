@@ -9,8 +9,9 @@ import { faCartPlus } from '@fortawesome/free-solid-svg-icons'
 
 import './Order.css'
 
-const Order = (props) => {
+const Order = (props, {handleAddToCart}) => {
     const { name, img, price, seller, ratings } = props.product;
+    
     
     return (
         <div>
@@ -26,7 +27,7 @@ const Order = (props) => {
                                 <Card.Text>Rating: {ratings} Star</Card.Text>
                             </Card.Body>
                             <Card.Footer className='bg-warning'>
-                                <Button type='button' onClick={ () => props.handleAddToCart(props.product)} variant="warning" className='form-control bg-warning'>Add To Cart <FontAwesomeIcon icon={faCartPlus}></FontAwesomeIcon> </Button>
+                                <Button type='button' onClick={ () => props.handleAddToCart(props.product)} variant="warning" className='form-control bg-warning btn-cart'>Add To Cart <FontAwesomeIcon icon={faCartPlus}></FontAwesomeIcon> </Button>
                             </Card.Footer>
                         </Card>
                     </CardGroup>
